@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Ledger Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script src="/script.js" defer></script>
+</head>
+<body>
+    <div class="container">
+        <header class="header">
+            <h1><i class="fas fa-coins"></i> Crypto Ledger </h1>
+            <p>Track your cryptocurrency investments in real-time</p>
+        </header>
+
+        <section class="portfolio-summary">
+            <div class="summary-card">
+                <div class="summary-item">
+                    <i class="fas fa-dollar-sign"></i>
+                    <div>
+                        <h3>Total Invested</h3>
+                        <p class="amount">$<%= summary.totalInvested %></p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-chart-line"></i>
+                    <div>
+                        <h3>Current Value</h3>
+                        <p class="amount">$<%= summary.currentValue %></p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-percentage"></i>
+                    <div>
+                        <h3>Profit/Loss</h3>
+                        <p class="amount" style="color: <%= parseFloat(summary.profitLossPercentage) >= 0 ? '#00b894' : '#e17055' %>"><%= summary.profitLossPercentage %>%</p>
+                    </div>
+                </div>
+                <div class="summary-item">
+                    <i class="fas fa-coins"></i>
+                    <div>
+                        <h3>Total Coins</h3>
+                        <p class="amount"><%= summary.totalCoins %> Coins</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Add Transaction Form -->
+        <section class="add-transaction">
+            <h2><i class="fas fa-plus-circle"></i> Add New Transaction</h2>
+            <form action="/add-transaction" method="POST" class="transaction-form">
+                <div class="form-group">
+                    <label for="coinSymbol">
+                        <i class="fab fa-bitcoin"></i> Coin Symbol
+                    </label>
+                    <input type="text" id="coinSymbol" name="coinSymbol" placeholder="BTC, ETH, DOGE..." required>
+                </div>
+                <div class="form-group">
+                    <label for="buyPrice">
+                        <i class="fas fa-tag"></i> Buy Price (USD)
+                    </label>
+                    <input type="number" id="buyPrice" name="buyPrice" step="0.00000001" placeholder="0.00" required>
+                </div>
+                <div class="form-group">
+                    <label for="amount">
+                        <i class="fas fa-balance-scale"></i> Amount
+                    </label>
+                    <input type="number" id="amount" name="amount" step="0.00000001" placeholder="0.00000000" required>
+                </div>
+                <button type="submit" class="btn-primary">
+                    <i class="fas fa-plus"></i> Add Transaction
+                </button>
+            </form>
+        </section>
+
+        <section class="transaction-history">
+            <h2><i class="fas fa-list"></i> Transaction History</h2>
+            <% if (transactions.length === 0) { %>
+                <div class="empty-state">
+                    <i class="fas fa-inbox"></i>
+                    <p>No transactions yet. Add your first transaction above!</p>
+                </div>
+            <% } else { %>
+                <div class="table-responsive">
+                    <table class="transactions-table">
+                        <thead>
+                            <tr>
+                                <th>Coin</th>
+                                <th>Buy Price</th>
+                                <th>Amount</th>
+                                <th>Total Value</th>
+                                <th>Date</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% transactions.forEach(function(transaction) { %>
+                                <tr>
+                                    <td class="coin-symbol">
+                                        <i class="fab fa-bitcoin"></i>
+                                        <%= transaction.coinSymbol %>
+                                    </td>
+                                    <td class="price">$<%= transaction.buyPrice.toFixed(8) %></td>
+                                    <td class="amount"><%= transaction.amount.toFixed(8) %></td>
+                                    <td class="total-value">$<%= (transaction.buyPrice * transaction.amount).toFixed(2) %></td>
+                                    <td class="date"><%= new Date(transaction.timestamp).toLocaleDateString() %></td>
+                                    <td class="status">
+                                        <% if (transaction.verified) { %>
+                                            <span class="status-verified">
+                                                <i class="fas fa-check-circle"></i> Verified
+                                            </span>
+                                        <% } else { %>
+                                            <span class="status-pending">
+                                                <i class="fas fa-clock"></i> Pending
+                                            </span>
+                                        <% } %>
+                                    </td>
+                                    <td class="actions">
+                                        <form action="/verify-transaction/<%= transaction.id %>" method="POST" style="display: inline;">
+                                            <button type="submit" class="btn-icon <%= transaction.verified ? 'btn-unverify' : 'btn-verify' %>" 
+                                                    title="<%= transaction.verified ? 'Mark as Unverified' : 'Mark as Verified' %>">
+                                                <i class="fas <%= transaction.verified ? 'fa-times' : 'fa-check' %>"></i>
+                                            </button>
+                                        </form>
+                                        <button onclick="deleteTransaction(<%= transaction.id %>)" class="btn-icon btn-delete" title="Delete Transaction">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            <% }); %>
+                        </tbody>
+                    </table>
+                </div>
+            <% } %>
+        </section>
+
+        <section class="portfolio-breakdown">
+            <h2><i class="fas fa-chart-pie"></i> Portfolio Breakdown</h2>
+            <div class="breakdown-table">
+                <% if (breakdown.length === 0) { %>
+                    <div class="empty-state">
+                        <i class="fas fa-inbox"></i>
+                        <p>No coins in your portfolio yet.</p>
+                    </div>
+                <% } else { %>
+                    <div class="table-responsive">
+                        <table class="portfolio-table">
+                            <thead>
+                                <tr>
+                                    <th>Coin</th>
+                                    <th>Invested</th>
+                                    <th>Current Value</th>
+                                    <th>Profit/Loss</th>
+                                    <th>Change (24h)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% breakdown.forEach(function(holding) { %>
+                                    <tr>
+                                        <td class="coin-symbol">
+                                            <i class="fab fa-bitcoin"></i>
+                                            <%= holding.symbol %>
+                                        </td>
+                                        <td class="invested">$<%= holding.invested.toFixed(2) %></td>
+                                        <td class="current-value">$<%= holding.currentValue.toFixed(2) %></td>
+                                        <td class="profit-loss" style="color:<%= holding.profitLoss >= 0 ? 'green' : 'red' %>">
+                                            $<%= holding.profitLoss.toFixed(2) %> (<%= holding.profitLossPercentage.toFixed(2) %>%)
+                                        </td>
+                                        <td class="change-24h" style="color:<%= holding.change24h >= 0 ? 'green' : 'red' %>">
+                                            <%= holding.change24h.toFixed(2) %>%
+                                        </td>
+                                    </tr>
+                                <% }); %>
+                            </tbody>
+                        </table>
+                    </div>
+                <% } %>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
+

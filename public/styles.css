@@ -1,0 +1,370 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    line-height: 1.6;
+    background: #0a0b0f;
+    color: #ffffff;
+    min-height: 100vh;
+}
+
+.container {
+    width: 95%;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.header {
+    text-align: center;
+    margin-bottom: 40px;
+    padding: 20px 0;
+}
+
+.header h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 8px;
+}
+
+.header h1 i {
+    color: #6c5ce7;
+    margin-right: 12px;
+}
+
+.header p {
+    color: #8b8b8b;
+    font-size: 1.1rem;
+}
+
+.portfolio-summary {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.summary-card {
+    background: linear-gradient(135deg, #1a1b23 0%, #2a2d3a 100%);
+    border: 1px solid #2a2d3a;
+    border-radius: 16px;
+    padding: 0;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+    overflow: hidden;
+}
+
+.summary-item {
+    padding: 24px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.summary-item i {
+    font-size: 1.5rem;
+    color: #6c5ce7;
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(108, 92, 231, 0.1);
+    border-radius: 12px;
+}
+
+.summary-item div {
+    flex: 1;
+}
+
+.summary-item h3 {
+    color: #8b8b8b;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.amount {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin: 0;
+}
+
+.add-transaction {
+    background: linear-gradient(135deg, #1a1b23 0%, #2a2d3a 100%);
+    border: 1px solid #2a2d3a;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.add-transaction h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.add-transaction h2 i {
+    color: #6c5ce7;
+    margin-right: 12px;
+}
+
+.transaction-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: end;
+}
+
+.form-group {
+    margin-bottom: 0;
+}
+
+.transaction-form label {
+    display: block;
+    margin-bottom: 8px;
+    color: #8b8b8b;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.transaction-form label i {
+    color: #6c5ce7;
+    margin-right: 8px;
+}
+
+.transaction-form input {
+    width: 100%;
+    padding: 12px 16px;
+    background: #0f1115;
+    border: 1px solid #2a2d3a;
+    border-radius: 8px;
+    color: #ffffff;
+    font-size: 1rem;
+    transition: border-color 0.3s ease;
+}
+
+.transaction-form input:focus {
+    outline: none;
+    border-color: #6c5ce7;
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+.transaction-form input::placeholder {
+    color: #4a4a4a;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #6c5ce7 0%, #a55eea 100%);
+    color: white;
+    padding: 12px 24px;
+    border: none;
+    cursor: pointer;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 24px rgba(108, 92, 231, 0.4);
+}
+
+.transaction-history, .portfolio-breakdown {
+    background: linear-gradient(135deg, #1a1b23 0%, #2a2d3a 100%);
+    border: 1px solid #2a2d3a;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 40px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.transaction-history h2, .portfolio-breakdown h2 {
+    color: #ffffff;
+    margin-bottom: 20px;
+    font-size: 1.4rem;
+    font-weight: 600;
+}
+
+.transaction-history h2 i, .portfolio-breakdown h2 i {
+    color: #6c5ce7;
+    margin-right: 12px;
+}
+
+.table-responsive {
+    overflow-x: auto;
+    margin-top: 20px;
+}
+
+.transactions-table, .portfolio-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: transparent;
+}
+
+.transactions-table th,
+.transactions-table td,
+.portfolio-table th,
+.portfolio-table td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid #2a2d3a;
+}
+
+.transactions-table th,
+.portfolio-table th {
+    background: rgba(108, 92, 231, 0.1);
+    color: #8b8b8b;
+    font-weight: 600;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.transactions-table td,
+.portfolio-table td {
+    color: #ffffff;
+    font-size: 0.95rem;
+}
+
+.coin-symbol {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+}
+
+.coin-symbol i {
+    color: #f39c12;
+    font-size: 1.2rem;
+}
+
+.status-verified {
+    color: #00b894;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.status-pending {
+    color: #fdcb6e;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.btn-icon {
+    cursor: pointer;
+    background: none;
+    border: none;
+    color: #6c5ce7;
+    padding: 8px;
+    border-radius: 6px;
+    transition: all 0.3s ease;
+    margin: 0 4px;
+}
+
+.btn-icon:hover {
+    background: rgba(108, 92, 231, 0.1);
+    transform: scale(1.1);
+}
+
+.btn-delete {
+    color: #e17055;
+}
+
+.btn-delete:hover {
+    background: rgba(225, 112, 85, 0.1);
+}
+
+.btn-verify {
+    color: #00b894;
+}
+
+.btn-verify:hover {
+    background: rgba(0, 184, 148, 0.1);
+}
+
+.btn-unverify {
+    color: #fdcb6e;
+}
+
+.btn-unverify:hover {
+    background: rgba(253, 203, 110, 0.1);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 40px;
+    color: #8b8b8b;
+}
+
+.empty-state i {
+    font-size: 3rem;
+    margin-bottom: 16px;
+    color: #4a4a4a;
+}
+
+.empty-state p {
+    font-size: 1.1rem;
+}
+
+.profit-loss {
+    font-weight: 600;
+}
+
+.change-24h {
+    font-weight: 600;
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .container {
+        width: 100%;
+        padding: 16px;
+    }
+    
+    .header h1 {
+        font-size: 2rem;
+    }
+    
+    .portfolio-summary {
+        grid-template-columns: 1fr;
+    }
+    
+    .transaction-form {
+        grid-template-columns: 1fr;
+    }
+    
+    .summary-item {
+        padding: 20px;
+    }
+    
+    .amount {
+        font-size: 1.5rem;
+    }
+    
+    .transactions-table th,
+    .transactions-table td,
+    .portfolio-table th,
+    .portfolio-table td {
+        padding: 8px;
+        font-size: 0.85rem;
+    }
+}
