@@ -1,4 +1,4 @@
-# Crypto Ledger
+# Crypto Portfolio Tracker Dashboard
 
 A simple yet powerful web application for tracking cryptocurrency investments and monitoring your portfolio.
 
